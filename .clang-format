@@ -1,0 +1,18 @@
+BasedOnStyle: Mozilla
+
+AccessModifierOffset: -4
+AlignEscapedNewlines: Left
+AllowShortLambdasOnASingleLine: All
+AlwaysBreakAfterReturnType: None
+AlwaysBreakTemplateDeclarations: true
+BreakBeforeBraces: Allman
+BreakConstructorInitializers: AfterColon
+BreakInheritanceList: AfterColon
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+Cpp11BracedListStyle: true
+FixNamespaceComments: true
+IncludeBlocks: Preserve
+IndentPPDirectives: AfterHash
+IndentWrappedFunctionNames: true
+Language: Cpp
+IndentWidth: 4
