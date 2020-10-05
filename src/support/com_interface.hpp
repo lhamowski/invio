@@ -7,7 +7,7 @@
 #include <string>
 #include <system_error>
 
-namespace invio::support {
+namespace invio {
 
 template <typename Intf>
 class com_interface final
@@ -50,4 +50,4 @@ private:
     Intf* intf_{nullptr};
 };
 
-}  // namespace invio::support
+}  // namespace invio

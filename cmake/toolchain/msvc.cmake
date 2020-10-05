@@ -7,18 +7,24 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-set(CMAKE_C_FLAGS 
-    "/DWIN32_LEAN_AND_MEAN"
-    "/D_UNICODE"
-    "/DUNICODE"
-    "/W4" 
-    CACHE 
-    STRING "Flags used by C compiler")
+set(compile_options /W4)
 
-set(CMAKE_CXX_FLAGS 
-    "/DWIN32_LEAN_AND_MEAN"
-    "/D_UNICODE"
-    "/DUNICODE"
-    "/W4" 
-    CACHE 
-    STRING "Flags used by C++ compiler")
+set(compile_definitions
+    /DWIN32_LEAN_AND_MEAN
+    /D_WIN32_WINNT=0x0601
+)
+
+macro(__list_to_string _list)
+    string(REPLACE ";" " " ${_list} "${${_list}}")
+endmacro()
+
+__list_to_string(compile_definitions)
+__list_to_string(compile_options)
+
+
+set(CMAKE_C_FLAGS "${compile_options} ${compile_definitions}"
+    CACHE STRING "Flags used by the C compiler."
+)
+set(CMAKE_CXX_FLAGS "/EHsc ${compile_options} ${compile_definitions}"
+    CACHE STRING "Flags used by the CXX compiler."
+)

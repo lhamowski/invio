@@ -1,17 +1,28 @@
-set(source_files 
-	core/audio_manager.cpp
+set(lib_source_files 
 	core/audio_manager.hpp
+	core/audio_manager.cpp
 	support/assert.hpp
-	support/com_interface.cpp 
 	support/com_interface.hpp
-	error.hpp)
+	support/error.hpp
+	support/error.cpp)
+
+set(source_files 
+	main.cpp 
+	app.hpp 
+	app.cpp
+	config.hpp
+	config.cpp)
 
 add_library(invio-lib)
-target_sources(invio-lib PRIVATE ${source_files})
+target_sources(invio-lib PRIVATE ${lib_source_files})
 target_include_directories(invio-lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(invio-lib PRIVATE fmt::fmt)
-source_group(TREE ${invio_SOURCE_DIR} FILES ${source_files})
+target_link_libraries(invio-lib PUBLIC 
+	fmt::fmt
+	spdlog::spdlog)
+source_group(TREE ${invio_SOURCE_DIR} FILES ${lib_source_files})
 
 add_executable(invio)
-target_sources(invio PRIVATE main.cpp)
-target_link_libraries(invio PRIVATE invio-lib)
+target_sources(invio PRIVATE ${source_files})
+target_link_libraries(invio PRIVATE 
+	invio-lib
+	kl::yaml)
