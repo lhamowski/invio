@@ -16,7 +16,7 @@ private:
     void create_device_enumerator();
     void init_default_device();
     void init_audio_client();
-    void initialize_capture_client();
+    void init_capture_client();
 
     invio::com_interface<IMMDeviceEnumerator> device_enumerator_;
     invio::com_interface<IMMDevice> default_device_;

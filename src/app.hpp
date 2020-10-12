@@ -3,6 +3,7 @@
 #include "core/audio_manager.hpp"
 
 namespace invio {
+
 class app final
 {
 public:
@@ -12,4 +13,5 @@ public:
 private:
     audio_manager audio_manager_;
 };
+
 }  // namespace invio

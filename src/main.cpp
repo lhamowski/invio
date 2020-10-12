@@ -1,4 +1,5 @@
 #include "app.hpp"
+#include "config.hpp"
 #include "support/error.hpp"
 
 #include <objbase.h>
@@ -13,7 +14,7 @@ void init_com()
         result, "Cannot initialize the COM library");
 }
 
-void run()
+void run(const invio::config& cfg)
 {
     try
     {
@@ -26,7 +27,6 @@ void run()
     }
     catch (const invio::initialization_failed& ex)
     {
-        
     }
     catch (const std::exception& ex)
     {
@@ -38,6 +38,8 @@ void run()
 
 int main()
 {
-    run();
+    const auto cfg = invio::load_config("");
+
+    run(cfg);
     return 0;
 }

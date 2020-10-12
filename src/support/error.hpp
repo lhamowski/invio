@@ -11,9 +11,22 @@
 
 namespace invio {
 
-struct initialization_failed : std::runtime_error
+class initialization_failed : public std::exception
 {
-    using std::runtime_error::runtime_error;
+public:
+    template <typename... Args>
+    initialization_failed(const char* msg, const Args&... args) :
+        msg_{fmt::format(msg, args...)}
+    {
+    }
+
+    explicit initialization_failed(const char* msg) : msg_{msg} {}
+    explicit initialization_failed(const std::string& msg) : msg_{msg} {}
+
+    const char* what() const override { return msg_.c_str(); }
+
+private:
+    std::string msg_;
 };
 
 std::string format_error(const std::error_code& error, std::string error_msg);

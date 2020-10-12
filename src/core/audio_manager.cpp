@@ -29,7 +29,7 @@ void audio_manager::init_default_device()
     const auto error = device_enumerator_->GetDefaultAudioEndpoint(
         eRender, eMultimedia, default_device_);
     invio::throw_if_error<invio::initialization_failed>(
-        error, "Cannot obtain default device.");
+        error, "Cannot obtain default device");
 }
 
 void audio_manager::init_audio_client()
@@ -55,7 +55,7 @@ void audio_manager::init_audio_client()
         error, "Cannot create an audio stream");
 }
 
-void audio_manager::initialize_capture_client()
+void audio_manager::init_capture_client()
 {
     constexpr GUID capture_client_guid = __uuidof(IAudioCaptureClient);
 
