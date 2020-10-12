@@ -1,12 +1,38 @@
 cmake_minimum_required(VERSION 3.16)
 project(invio VERSION 1.0 LANGUAGES CXX)
 
-list(APPEND CMAKE_MODULE_PATH ${invio_SOURCE_DIR}/cmake)
+set(Boost_USE_STATIC_LIBS ON)
+list(APPEND CMAKE_PREFIX_PATH $ENV{INVIO_SDK}/boost/1.68.0)
 
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
+set(compile_options /W4 /wd4127) 
+
+set(compile_definitions
+    /DWIN32_LEAN_AND_MEAN
+    /D_WIN32_WINNT=0x0601
+)
+
+macro(to_string _list)
+    string(REPLACE ";" " " ${_list} "${${_list}}")
+endmacro()
+
+to_string(compile_definitions)
+to_string(compile_options)
+
+set(CMAKE_C_FLAGS "${compile_options} ${compile_definitions}"
+    CACHE STRING "Flags used by the C compiler."
+)
+set(CMAKE_CXX_FLAGS "/EHsc ${compile_options} ${compile_definitions}"
+    CACHE STRING "Flags used by the CXX compiler."
+)
+
+set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
 set(INVIO_TEST ON)
 
 add_subdirectory(src)
