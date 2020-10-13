@@ -29,20 +29,28 @@ private:
     std::string msg_;
 };
 
-std::string format_error(const std::error_code& error, std::string error_msg);
-
-template <typename Exception>
-void throw_if_error(const std::error_code& error, std::string error_msg)
+template <typename... Args>
+std::string format_error(const std::error_code& error,
+                         std::string msg,
+                         const Args&... args)
 {
-    if (error)
-        throw Exception{format_error(error, std::move(error_msg))};
+    return fmt::format(std::move(msg) + "\n" + error.message(), args...);
 }
 
-template <typename Exception>
-void throw_if_error(HRESULT error, std::string error_msg)
+template <typename Exception, typename... Args>
+void throw_if_error(const std::error_code& error,
+                    std::string msg,
+                    const Args&... args)
+{
+    if (error)
+        throw Exception{format_error(error, std::move(msg), args...)};
+}
+
+template <typename Exception, typename... Args>
+void throw_if_error(HRESULT error, std::string msg, const Args&... args)
 {
     const std::error_code error_code{error, std::system_category()};
-    throw_if_error<Exception>(error_code, std::move(error_msg));
+    throw_if_error<Exception>(error_code, std::move(msg), args...);
 }
 
 }  // namespace invio

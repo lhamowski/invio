@@ -5,8 +5,7 @@ set(lib_source_files
 	core/logger_manager.cpp
 	support/assert.hpp
 	support/com_interface.hpp
-	support/error.hpp
-	support/error.cpp)
+	support/error.hpp)
 
 set(source_files 
 	main.cpp 
