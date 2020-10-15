@@ -3,7 +3,7 @@
 #include <fmt/core.h>
 
 #include <winerror.h>
-
+#include <concepts>
 #include <memory>
 #include <stdexcept>
 #include <string>
@@ -29,6 +29,9 @@ private:
     std::string msg_;
 };
 
+template <typename T>
+concept Exceptionable = std::derived_from<T, std::exception>;
+
 template <typename... Args>
 std::string format_error(const std::error_code& error,
                          std::string msg,
@@ -37,7 +40,7 @@ std::string format_error(const std::error_code& error,
     return fmt::format(std::move(msg) + "\n" + error.message(), args...);
 }
 
-template <typename Exception, typename... Args>
+template <Exceptionable Exception, typename... Args>
 void throw_if_error(const std::error_code& error,
                     std::string msg,
                     const Args&... args)
@@ -46,7 +49,7 @@ void throw_if_error(const std::error_code& error,
         throw Exception{format_error(error, std::move(msg), args...)};
 }
 
-template <typename Exception, typename... Args>
+template <Exceptionable Exception, typename... Args>
 void throw_if_error(HRESULT error, std::string msg, const Args&... args)
 {
     const std::error_code error_code{error, std::system_category()};
