@@ -29,8 +29,9 @@ private:
     std::string msg_;
 };
 
-template <typename T>
-concept Exceptionable = std::derived_from<T, std::exception>;
+// TODO - wait for Intellisense support of concepts
+//template <typename T>
+//concept Exceptionable = std::derived_from<T, std::exception>;
 
 template <typename... Args>
 std::string format_error(const std::error_code& error,
@@ -40,7 +41,7 @@ std::string format_error(const std::error_code& error,
     return fmt::format(std::move(msg) + "\n" + error.message(), args...);
 }
 
-template <Exceptionable Exception, typename... Args>
+template <typename Exception, typename... Args>
 void throw_if_error(const std::error_code& error,
                     std::string msg,
                     const Args&... args)
@@ -49,7 +50,7 @@ void throw_if_error(const std::error_code& error,
         throw Exception{format_error(error, std::move(msg), args...)};
 }
 
-template <Exceptionable Exception, typename... Args>
+template <typename Exception, typename... Args>
 void throw_if_error(HRESULT error, std::string msg, const Args&... args)
 {
     const std::error_code error_code{error, std::system_category()};

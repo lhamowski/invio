@@ -23,7 +23,7 @@ config read_config(std::ifstream& file)
     }
 }
 
-config generate_config(const std::string& filepath)
+config generate_config(const std::filesystem::path& filepath)
 {
     const config cfg{};
     std::ofstream file{filepath, std::ios::out | std::ios::trunc};
@@ -35,7 +35,7 @@ config generate_config(const std::string& filepath)
 
 }  // namespace
 
-config load_config(const std::string& filepath)
+config load_config(const std::filesystem::path& filepath)
 {
     std::ifstream file{filepath};
     if (file.good())
@@ -44,7 +44,5 @@ config load_config(const std::string& filepath)
     // If file does not exist or it is empty
     return generate_config(filepath);
 }
-
-void from_yaml(config& out, const YAML::Node& value) {}
 
 }  // namespace invio

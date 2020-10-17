@@ -1,9 +1,11 @@
 set(lib_source_files 
-	core/audio_manager.hpp
-	core/audio_manager.cpp
+	core/logger_manager.hpp
+	core/logger_manager.cpp
 	support/assert.hpp
 	support/com_interface.hpp
-	support/error.hpp)
+	support/error.hpp
+	support/path.hpp
+	support/path.cpp)
 
 set(source_files 
 	main.cpp 

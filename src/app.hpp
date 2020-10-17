@@ -1,17 +1,20 @@
 #pragma once
 
-#include "core/audio_manager.hpp"
+#include "config.hpp"
+#include "core/logger_manager.hpp"
 
 namespace invio {
 
 class app final
 {
 public:
-    app();
+    app(config& cfg);
     void main_loop();
 
 private:
-    audio_manager audio_manager_;
+    config& cfg_;
+    logger_manager logger_manager_;
+    logger logger_;
 };
 
 }  // namespace invio
