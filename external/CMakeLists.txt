@@ -20,11 +20,9 @@ FetchContent_Declare(
 FetchContent_GetProperties(catch2)
 if(NOT catch2_POPULATED)
     FetchContent_Populate(catch2)
-    add_library(Catch2 INTERFACE IMPORTED GLOBAL)
-    set(include_directories ${catch2_SOURCE_DIR}/single_include)
-    set_target_properties(Catch2 PROPERTIES
-        INTERFACE_INCLUDE_DIRECTORIES "${include_directories}"
-    )
+    add_subdirectory(${catch2_SOURCE_DIR} ${catch2_BINARY_DIR})
+    list(APPEND CMAKE_MODULE_PATH "${catch2_SOURCE_DIR}/contrib")
+    set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} PARENT_SCOPE)
 endif()
 
 FetchContent_GetProperties(fmt)

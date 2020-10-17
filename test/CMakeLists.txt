@@ -9,3 +9,5 @@ source_group(TREE ${invio_SOURCE_DIR} FILES ${test_source_files})
 target_link_libraries(invio-test
     Catch2
     invio-lib)
+
+catch_discover_tests(invio-test)

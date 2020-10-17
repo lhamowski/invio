@@ -39,6 +39,7 @@ add_subdirectory(src)
 add_subdirectory(external)
 
 if(INVIO_TEST)
+    include(Catch)
     enable_testing()
     add_subdirectory(test)
 endif()

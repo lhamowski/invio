@@ -6,16 +6,22 @@ environment:
     BOOST_INCLUDEDIR: "C:/Libraries/boost_1_71_0"
     BOOST_LIBRARYDIR: "C:/Libraries/boost_1_71_0/lib64-msvc-14.2"
 
+install:
+- choco install opencppcoverage codecov
+- set PATH=C:\Program Files\OpenCppCoverage;%PATH%
+
 before_build:
   - cmd: mkdir build
   - cmd: cd build
   - cmd: cmake -G "Visual Studio 16 2019" -A x64 ..
 
 build_script:
-  - cmd: cmake --build . --config Release -- /verbosity:minimal /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - cmd: cmake --build . --config Debug -- /verbosity:minimal /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - OpenCppCoverage --export_type cobertura:coverage.xml --modules "build\bin\Debug\invio-test.exe" --cover_children -- ctest -C Debug --output-on-failure
+  - codecov -f coverage.xml --root %APPVEYOR_BUILD_FOLDER%
 
 test_script:
-  - cmd: bin\\Release\\invio-test -r junit -o results.xml
+  - cmd: bin\\Debug\\invio-test -r junit -o results.xml
 
 after_test:
   - ps: |
@@ -24,5 +30,5 @@ after_test:
       (New-Object 'System.Net.WebClient').UploadFile($url, (Resolve-Path $file))
 
 artifacts:
-  - path: build/bin/Release/invio.exe
+  - path: build/bin/Debug/invio.exe
     name: invio
