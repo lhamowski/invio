@@ -8,6 +8,9 @@
 
 #include <spdlog/spdlog.h>
 
+#include <memory>
+#include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace invio {
@@ -32,7 +35,9 @@ struct log_config final
 KL_REFLECT_STRUCT(log_config, console_level, file_level)
 
 namespace detail {
-    spdlog::level::level_enum to_spdlog_level(log_level lvl);
+
+spdlog::level::level_enum to_spdlog_level(log_level lvl);
+
 }
 
 class logger final
@@ -57,12 +62,16 @@ public:
     ~logger_manager();
 
     logger new_logger(const char* name);
+    const auto& loggers() const { return loggers_; }
+    const auto& sinks() const { return sinks_; }
 
 private:
     void configure_sinks(const log_config& cfg);
+    std::shared_ptr<spdlog::logger> make_logger(const char* name);
 
 private:
     std::vector<spdlog::sink_ptr> sinks_;
+    std::unordered_map<std::string, std::shared_ptr<spdlog::logger>> loggers_;
 };
 
 }  // namespace invio

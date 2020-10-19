@@ -29,10 +29,6 @@ private:
     std::string msg_;
 };
 
-// TODO - wait for Intellisense support of concepts
-//template <typename T>
-//concept Exceptionable = std::derived_from<T, std::exception>;
-
 template <typename... Args>
 std::string format_error(const std::error_code& error,
                          std::string msg,

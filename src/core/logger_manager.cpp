@@ -4,8 +4,6 @@
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 
-#include <memory>
-
 namespace invio {
 
 namespace detail {
@@ -35,8 +33,8 @@ spdlog::level::level_enum to_spdlog_level(log_level lvl)
             return {};
     }
 }
-}
 
+}  // namespace detail
 
 logger::logger(std::shared_ptr<spdlog::logger> logger) :
     logger_{std::move(logger)}
@@ -55,8 +53,8 @@ logger_manager::~logger_manager()
 
 logger logger_manager::new_logger(const char* name)
 {
-    return logger{
-        std::make_shared<spdlog::logger>(name, sinks_.begin(), sinks_.end())};
+    auto& log = loggers_.try_emplace(name, make_logger(name)).first->second;
+    return logger{log};
 }
 
 void logger_manager::configure_sinks(const log_config& cfg)
@@ -71,6 +69,11 @@ void logger_manager::configure_sinks(const log_config& cfg)
     auto file_sink = std::make_shared<sinks::basic_file_sink_mt>(path.string());
     file_sink->set_level(detail::to_spdlog_level(cfg.file_level));
     sinks_.push_back(std::move(file_sink));
+}
+
+std::shared_ptr<spdlog::logger> logger_manager::make_logger(const char* name)
+{
+    return std::make_shared<spdlog::logger>(name, sinks_.begin(), sinks_.end());
 }
 
 }  // namespace invio
