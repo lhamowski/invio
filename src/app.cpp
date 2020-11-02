@@ -7,7 +7,7 @@ app::app(config& cfg) :
     logger_manager_{cfg.log_cfg},
     logger_{logger_manager_.new_logger("app")}
 {
-    logger_.log(log_level::info, "App started");
+    LOG_INFO(logger_, "App started");
 }
 
 void app::main_loop()

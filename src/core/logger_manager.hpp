@@ -75,3 +75,11 @@ private:
 };
 
 }  // namespace invio
+
+#define LOG(logger, level, ...) (logger).log((level), __VA_ARGS__);
+#define LOG_TRACE(log, ...) LOG(log, invio::log_level::trace, __VA_ARGS__)
+#define LOG_DEBUG(log, ...) LOG(log, invio::log_level::debug, __VA_ARGS__)
+#define LOG_INFO(log, ...) LOG(log, invio::log_level::info, __VA_ARGS__)
+#define LOG_WARNING(log, ...) LOG(log, invio::log_level::warning, __VA_ARGS__)
+#define LOG_ERROR(log, ...) LOG(log, invio::log_level::error, __VA_ARGS__)
+#define LOG_CRITICAL(log, ...) LOG(log, invio::log_level::critical, __VA_ARGS__)
