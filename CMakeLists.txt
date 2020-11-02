@@ -16,6 +16,8 @@ set(compile_options /W4 /wd4127)
 set(compile_definitions
     /DWIN32_LEAN_AND_MEAN
     /D_WIN32_WINNT=0x0601
+    /D_CRT_SECURE_NO_WARNINGS
+    /D_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING
 )
 
 macro(to_string _list)
@@ -26,14 +28,19 @@ to_string(compile_definitions)
 to_string(compile_options)
 
 set(CMAKE_C_FLAGS "${compile_options} ${compile_definitions}"
-    CACHE STRING "Flags used by the C compiler."
+    CACHE STRING "Flags used by the C compiler." FORCE
 )
 set(CMAKE_CXX_FLAGS "/EHsc ${compile_options} ${compile_definitions}"
-    CACHE STRING "Flags used by the CXX compiler."
+    CACHE STRING "Flags used by the CXX compiler." FORCE
 )
 
 set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
 set(INVIO_TEST ON)
+
+find_package(Boost 1.68.0 REQUIRED
+    COMPONENTS
+        system
+)
 
 add_subdirectory(src)
 add_subdirectory(external)
