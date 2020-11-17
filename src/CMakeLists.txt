@@ -1,4 +1,6 @@
 set(lib_source_files 
+	core/rtsp/server.hpp
+	core/rtsp/server.cpp
 	core/logger_manager.hpp
 	core/logger_manager.cpp
 	support/assert.hpp

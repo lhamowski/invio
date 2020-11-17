@@ -10,7 +10,7 @@ namespace invio {
 
 struct config
 {
-    log_config log_cfg{};
+    core::log_config log_cfg{};
 };
 KL_REFLECT_STRUCT(config, log_cfg)
 

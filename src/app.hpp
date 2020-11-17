@@ -13,8 +13,8 @@ public:
 
 private:
     config& cfg_;
-    logger_manager logger_manager_;
-    logger logger_;
+    core::logger_manager logger_manager_;
+    core::logger logger_;
 };
 
 }  // namespace invio

@@ -4,7 +4,7 @@
 #include <spdlog/sinks/basic_file_sink.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 
-namespace invio {
+namespace invio::core {
 
 namespace detail {
 
@@ -76,4 +76,4 @@ std::shared_ptr<spdlog::logger> logger_manager::make_logger(const char* name)
     return std::make_shared<spdlog::logger>(name, sinks_.begin(), sinks_.end());
 }
 
-}  // namespace invio
+}  // namespace invio::core

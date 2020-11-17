@@ -7,11 +7,13 @@
 
 TEST_CASE("logger manager", "[logger]")
 {
-    invio::log_config cfg{};
-    cfg.console_level = invio::log_level::critical;
-    cfg.file_level = invio::log_level::trace;
+    using namespace invio::core;
 
-    invio::logger_manager logger_manager_{cfg};
+    log_config cfg{};
+    cfg.console_level = log_level::critical;
+    cfg.file_level = log_level::trace;
+
+    logger_manager logger_manager_{cfg};
 
     const auto& sinks = logger_manager_.sinks();
     const auto& loggers = logger_manager_.loggers();

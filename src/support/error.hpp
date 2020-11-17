@@ -11,22 +11,34 @@
 
 namespace invio {
 
-class initialization_failed : public std::exception
+class formatted_exception : public std::exception
 {
 public:
     template <typename... Args>
-    initialization_failed(const char* msg, const Args&... args) :
+    formatted_exception(const char* msg, const Args&... args) :
         msg_{fmt::format(msg, args...)}
     {
     }
 
-    explicit initialization_failed(const char* msg) : msg_{msg} {}
-    explicit initialization_failed(const std::string& msg) : msg_{msg} {}
+    explicit formatted_exception(const char* msg) : msg_{msg} {}
+    explicit formatted_exception(const std::string& msg) : msg_{msg} {}
 
     const char* what() const override { return msg_.c_str(); }
 
 private:
     std::string msg_;
+};
+
+class initialization_failed : public formatted_exception
+{
+public:
+    using formatted_exception::formatted_exception;
+};
+
+class runtime_error : public formatted_exception
+{
+public:
+    using formatted_exception::formatted_exception;
 };
 
 template <typename... Args>
