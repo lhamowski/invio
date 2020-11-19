@@ -79,7 +79,7 @@ private:
 #define LOG_TRACE(log, ...) LOG(log, invio::core::log_level::trace, __VA_ARGS__)
 #define LOG_DEBUG(log, ...) LOG(log, invio::core::log_level::debug, __VA_ARGS__)
 #define LOG_INFO(log, ...) LOG(log, invio::core::log_level::info, __VA_ARGS__)
-#define LOG_WARNING(log, ...) LOG(log, invio::core::log_level::warn, __VA_ARGS__)
-#define LOG_ERROR(log, ...) LOG(log, invio::core::log_level::err, __VA_ARGS__)
+#define LOG_WARN(log, ...) LOG(log, invio::core::log_level::warning, __VA_ARGS__)
+#define LOG_ERR(log, ...) LOG(log, invio::core::log_level::error, __VA_ARGS__)
 #define LOG_CRITICAL(log, ...) LOG(log, invio::core::log_level::critical, __VA_ARGS__)
 // clang-format on

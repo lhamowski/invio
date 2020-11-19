@@ -14,6 +14,7 @@ void app::main_loop()
 {
     while (true)
     {
+        ctx_.poll();
         // TODO
     }
 }
