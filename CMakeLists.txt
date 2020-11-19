@@ -10,7 +10,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-set(compile_options /W4 /wd4127 /wd4100) 
+set(compile_options /W4 /wd4127 /wd4100 /wd5040) 
 
 set(compile_definitions
     /DWIN32_LEAN_AND_MEAN
