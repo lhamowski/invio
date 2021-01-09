@@ -1,8 +1,9 @@
 #pragma once
 
 namespace invio {
-class com_interface;
+
+namespace core {
 class logger;
 class logger_manager;
-class stream_client;
-}
+}  // namespace core
+}  // namespace invio

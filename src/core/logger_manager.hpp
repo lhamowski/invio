@@ -59,17 +59,16 @@ public:
     explicit logger_manager(const log_config& cfg);
     ~logger_manager();
 
-    logger new_logger(const char* name);
+    logger& new_logger(const char* name);
     const auto& loggers() const { return loggers_; }
     const auto& sinks() const { return sinks_; }
 
 private:
     void configure_sinks(const log_config& cfg);
-    std::shared_ptr<spdlog::logger> make_logger(const char* name);
 
 private:
     std::vector<spdlog::sink_ptr> sinks_;
-    std::unordered_map<std::string, std::shared_ptr<spdlog::logger>> loggers_;
+    std::unordered_map<std::string, logger> loggers_;
 };
 
 }  // namespace invio::core

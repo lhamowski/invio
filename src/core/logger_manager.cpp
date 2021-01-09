@@ -51,10 +51,11 @@ logger_manager::~logger_manager()
     spdlog::shutdown();
 }
 
-logger logger_manager::new_logger(const char* name)
+logger& logger_manager::new_logger(const char* name)
 {
-    auto& log = loggers_.try_emplace(name, make_logger(name)).first->second;
-    return logger{log};
+    logger log_impl{
+        std::make_shared<spdlog::logger>(name, sinks_.begin(), sinks_.end())};
+    return loggers_.try_emplace(name, std::move(log_impl)).first->second;
 }
 
 void logger_manager::configure_sinks(const log_config& cfg)
@@ -69,11 +70,6 @@ void logger_manager::configure_sinks(const log_config& cfg)
     auto file_sink = std::make_shared<sinks::basic_file_sink_mt>(path.string());
     file_sink->set_level(detail::to_spdlog_level(cfg.file_level));
     sinks_.push_back(std::move(file_sink));
-}
-
-std::shared_ptr<spdlog::logger> logger_manager::make_logger(const char* name)
-{
-    return std::make_shared<spdlog::logger>(name, sinks_.begin(), sinks_.end());
 }
 
 }  // namespace invio::core
