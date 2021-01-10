@@ -5,15 +5,18 @@ namespace invio {
 namespace core {
 class logger;
 class logger_manager;
+}  // namespace core
+
+namespace core::net {
 class tcp_acceptor;
 class tcp_socket;
-}  // namespace core
+}  // namespace core::net
 
 namespace core::rtsp {
 class connection;
 class connection_manager;
 class server;
-}  // namespace core::net::rtsp
+}  // namespace core::rtsp
 }  // namespace invio
 
 namespace boost::asio {

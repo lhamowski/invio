@@ -1,7 +1,7 @@
 #include "tcp_socket.hpp"
 #include "support/assert.hpp"
 
-namespace invio::core {
+namespace invio::core::net {
 
 class tcp_socket::impl : public std::enable_shared_from_this<impl>
 {
@@ -39,4 +39,4 @@ tcp_socket::tcp_socket(boost::asio::ip::tcp::socket& socket,
 {
 }
 
-}  // namespace invio::core
+}  // namespace invio::core::net

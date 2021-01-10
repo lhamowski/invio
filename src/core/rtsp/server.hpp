@@ -20,7 +20,7 @@ struct config final
 };
 KL_REFLECT_STRUCT(config, port)
 
-class server final : invio::core::tcp_acceptor_handler
+class server final : invio::core::net::tcp_acceptor_handler
 {
 public:
     server(const config& cfg,
@@ -31,8 +31,8 @@ public:
     server& operator=(const server&) = delete;
 
 private:
-    // invio::core::tcp_acceptor_handler implementation
-    void on_accepted(invio::core::tcp_socket& socket);
+    // invio::core::net::tcp_acceptor_handler implementation
+    void on_accepted(invio::core::net::tcp_socket& socket);
 
 private:
     const config& cfg_;
@@ -41,7 +41,7 @@ private:
 
 private:
     connection_manager connection_manager_;
-    invio::core::tcp_acceptor acceptor_;
+    invio::core::net::tcp_acceptor acceptor_;
 };
 
 }  // namespace invio::core::rtsp

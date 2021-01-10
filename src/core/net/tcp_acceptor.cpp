@@ -11,7 +11,7 @@
 
 #include <boost/system/error_code.hpp>
 
-namespace invio::core {
+namespace invio::core::net {
 
 class tcp_acceptor::impl : public std::enable_shared_from_this<impl>
 {
@@ -104,4 +104,4 @@ void tcp_acceptor::stop()
     impl_ = nullptr;
 }
 
-}  // namespace invio::core
+}  // namespace invio::core::net

@@ -9,7 +9,7 @@ connection_manager::connection_manager(invio::core::logger& logger) :
 {
 }
 
-void connection_manager::new_connection(invio::core::tcp_socket& socket)
+void connection_manager::new_connection(invio::core::net::tcp_socket& socket)
 {
     LOG_INFO(logger_, "New connection");
     connections_.insert(std::make_shared<connection>(socket));

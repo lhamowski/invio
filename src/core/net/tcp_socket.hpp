@@ -6,7 +6,7 @@
 
 #include <memory>
 
-namespace invio::core {
+namespace invio::core::net {
 
 class tcp_socket final
 {
@@ -19,4 +19,4 @@ private:
     std::shared_ptr<impl> impl_;
 };
 
-}  // namespace invio::core
+}  // namespace invio::core::net

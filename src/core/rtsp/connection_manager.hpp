@@ -12,7 +12,7 @@ class connection_manager final
 public:
     connection_manager(invio::core::logger& logger);
 
-    void new_connection(invio::core::tcp_socket& socket);
+    void new_connection(invio::core::net::tcp_socket& socket);
 
 private:
     invio::core::logger& logger_;

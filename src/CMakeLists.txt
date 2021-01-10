@@ -1,15 +1,15 @@
 set(lib_source_files 
-    core/net/rtsp/connection.hpp
-    core/net/rtsp/connection.cpp
-    core/net/rtsp/connection_manager.hpp
-    core/net/rtsp/connection_manager.cpp
-    core/net/rtsp/server.hpp
-    core/net/rtsp/server.cpp
-
     core/net/tcp_acceptor.hpp
     core/net/tcp_acceptor.cpp    
     core/net/tcp_socket.hpp
     core/net/tcp_socket.cpp
+
+    core/rtsp/connection.hpp
+    core/rtsp/connection.cpp
+    core/rtsp/connection_manager.hpp
+    core/rtsp/connection_manager.cpp
+    core/rtsp/server.hpp
+    core/rtsp/server.cpp
 
     core/logger_manager.hpp
     core/logger_manager.cpp

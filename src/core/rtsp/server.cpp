@@ -29,7 +29,7 @@ server::server(const config& cfg,
     acceptor_.start(endpoint, *this);
 }
 
-void server::on_accepted(invio::core::tcp_socket& socket)
+void server::on_accepted(invio::core::net::tcp_socket& socket)
 {
     connection_manager_.new_connection(socket);
 }

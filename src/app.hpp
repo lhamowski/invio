@@ -1,7 +1,7 @@
 #pragma once
 
 #include "config.hpp"
-#include "core/net/rtsp/server.hpp"
+#include "core/rtsp/server.hpp"
 #include "core/logger_manager.hpp"
 
 #include <boost/asio/io_context.hpp>

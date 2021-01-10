@@ -2,7 +2,7 @@
 
 namespace invio::core::rtsp {
 
-connection::connection(invio::core::tcp_socket& socket) :
+connection::connection(invio::core::net::tcp_socket& socket) :
     socket_{std::move(socket)}
 {
 }

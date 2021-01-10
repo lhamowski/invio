@@ -6,12 +6,12 @@
 
 #include <memory>
 
-namespace invio::core {
+namespace invio::core::net {
 
 class tcp_acceptor_handler
 {
 public:
-    virtual void on_accepted(invio::core::tcp_socket& socket) = 0;
+    virtual void on_accepted(invio::core::net::tcp_socket& socket) = 0;
 
 protected:
     ~tcp_acceptor_handler() = default;
@@ -42,4 +42,4 @@ private:
     invio::core::logger& logger_;
 };
 
-}  // namespace invio::core
+}  // namespace invio::core::net
