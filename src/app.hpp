@@ -1,7 +1,7 @@
 #pragma once
 
 #include "config.hpp"
-#include "core/rtsp/server.hpp"
+#include "core/net/rtsp/server.hpp"
 #include "core/logger_manager.hpp"
 
 #include <boost/asio/io_context.hpp>
@@ -19,7 +19,7 @@ public:
 private:
     config& cfg_;
 
-    boost::asio::io_context ctx_{};
+    boost::asio::io_context ctx_;
 
     core::logger_manager logger_manager_;
     core::logger& logger_;

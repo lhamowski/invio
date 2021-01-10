@@ -1,6 +1,9 @@
 #pragma once
 
+#include "connection_manager.hpp"
 #include "fwd.hpp"
+
+#include "core/net/tcp_acceptor.hpp"
 
 #include <kl/reflect_struct.hpp>
 
@@ -8,10 +11,6 @@
 
 #include <cstdint>
 #include <memory>
-
-namespace boost::asio {
-class io_context;
-}
 
 namespace invio::core::rtsp {
 
@@ -21,7 +20,7 @@ struct config final
 };
 KL_REFLECT_STRUCT(config, port)
 
-class server final
+class server final : invio::core::tcp_acceptor_handler
 {
 public:
     server(const config& cfg,
@@ -32,15 +31,17 @@ public:
     server& operator=(const server&) = delete;
 
 private:
-    const config& cfg_;
-    invio::core::logger& logger_;
-
-    boost::asio::io_context& ctx_;
-    boost::asio::ip::tcp::socket socket_;
+    // invio::core::tcp_acceptor_handler implementation
+    void on_accepted(invio::core::tcp_socket& socket);
 
 private:
-    class listener;
-    std::shared_ptr<listener> listener_;
+    const config& cfg_;
+    invio::core::logger& logger_;
+    boost::asio::io_context& ctx_;
+
+private:
+    connection_manager connection_manager_;
+    invio::core::tcp_acceptor acceptor_;
 };
 
 }  // namespace invio::core::rtsp
