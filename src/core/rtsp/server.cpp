@@ -13,8 +13,7 @@
 
 namespace invio::core::rtsp {
 
-server::server(const config& cfg,
-               invio::core::logger& logger,
+server::server(const config& cfg, invio::core::logger& logger,
                boost::asio::io_context& ctx) :
     cfg_(cfg),
     logger_{logger},
@@ -29,9 +28,9 @@ server::server(const config& cfg,
     acceptor_.start(endpoint, *this);
 }
 
-void server::on_accepted(invio::core::net::tcp_socket& socket)
+void server::on_accepted(boost::asio::ip::tcp::socket& socket)
 {
-    connection_manager_.new_connection(socket);
+    // connection_manager_.new_connection(socket);
 }
 
 }  // namespace invio::core::rtsp

@@ -23,8 +23,7 @@ KL_REFLECT_STRUCT(config, port)
 class server final : invio::core::net::tcp_acceptor_handler
 {
 public:
-    server(const config& cfg,
-           invio::core::logger& logger,
+    server(const config& cfg, invio::core::logger& logger,
            boost::asio::io_context& ctx);
 
     server(const server&) = delete;
@@ -32,7 +31,7 @@ public:
 
 private:
     // invio::core::net::tcp_acceptor_handler implementation
-    void on_accepted(invio::core::net::tcp_socket& socket);
+    void on_accepted(boost::asio::ip::tcp::socket& socket);
 
 private:
     const config& cfg_;

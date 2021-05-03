@@ -11,7 +11,7 @@ namespace invio::core::net {
 class tcp_acceptor_handler
 {
 public:
-    virtual void on_accepted(invio::core::net::tcp_socket& socket) = 0;
+    virtual void on_accepted(boost::asio::ip::tcp::socket& socket) = 0;
 
 protected:
     ~tcp_acceptor_handler() = default;

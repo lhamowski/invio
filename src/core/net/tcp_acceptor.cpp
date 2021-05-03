@@ -1,5 +1,3 @@
-#pragma once
-
 #include "tcp_acceptor.hpp"
 #include "tcp_socket.hpp"
 
@@ -8,7 +6,6 @@
 
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/ip/address_v4.hpp>
-
 #include <boost/system/error_code.hpp>
 
 namespace invio::core::net {
@@ -18,8 +15,7 @@ class tcp_acceptor::impl : public std::enable_shared_from_this<impl>
 public:
     impl(boost::asio::io_context& ctx,
          const boost::asio::ip::tcp::endpoint& endpoint,
-         tcp_acceptor_handler& handler,
-         invio::core::logger& logger) :
+         tcp_acceptor_handler& handler, invio::core::logger& logger) :
         acceptor_{ctx}, handler_{handler}, logger_{logger}
     {
         listen(endpoint);
@@ -65,13 +61,12 @@ private:
     {
         if (ec)
         {
-            LOG_WARN(logger_, "Cannot accept connection (error={})",
+            LOG_WARN(logger_, "Cannot accept connection (error: {})",
                      ec.message());
         }
         else
         {
-            tcp_socket sock{socket, logger_};
-            handler_.on_accepted(sock);
+            handler_.on_accepted(socket);
         }
 
         accept();
