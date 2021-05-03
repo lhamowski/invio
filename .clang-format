@@ -1,10 +1,15 @@
 BasedOnStyle: Chromium
 
 AccessModifierOffset: -4
+AlignAfterOpenBracket: Align
 AlignEscapedNewlines: Left
+AllowAllParametersOfDeclarationOnNextLine: true
+AllowShortFunctionsOnASingleLine: Inline
 AllowShortLambdasOnASingleLine: All
 AlwaysBreakAfterReturnType: None
 AlwaysBreakTemplateDeclarations: true
+BinPackArguments: true
+BinPackParameters: true
 BreakBeforeBraces: Custom
 BraceWrapping:
     AfterCaseLabel: false
@@ -21,10 +26,13 @@ BraceWrapping:
 BreakConstructorInitializers: AfterColon
 BreakInheritanceList: AfterColon
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
+ConstructorInitializerIndentWidth: 4
 Cpp11BracedListStyle: true
+ExperimentalAutoDetectBinPacking: false
 FixNamespaceComments: true
 IncludeBlocks: Preserve
 IndentPPDirectives: AfterHash
 IndentWrappedFunctionNames: true
 Language: Cpp
 IndentWidth: 4
+PenaltyReturnTypeOnItsOwnLine: 60
