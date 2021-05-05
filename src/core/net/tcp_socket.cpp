@@ -65,6 +65,8 @@ public:
         host_{host},
         port_{port},
         props_{props},
+        send_arena_{
+            std::make_shared<arena_type>(initial_arena_size, buffer_size)},
         logger_{logger}
     {
     }
