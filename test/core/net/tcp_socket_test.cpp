@@ -107,9 +107,7 @@ TEST_CASE("tcp socket", "[net]")
         std::span<const std::byte> received_data;
         char data[] = {'a', 'b', 'c'};
 
-        handler.connected_cb = [&] {
-            socket.send(std::as_bytes(std::span{data}));
-        };
+        handler.connected_cb = [&] {};
         handler.disconnected_cb = [&] { ctx.stop(); };
         handler.received_data_cb = [&](std::span<const std::byte> data) {
             REQUIRE(data.size() == 3);
@@ -122,6 +120,36 @@ TEST_CASE("tcp socket", "[net]")
         acceptor.async_accept(raw_socket, [&](const auto& ec) {
             REQUIRE_FALSE(ec);
             raw_socket.write_some(boost::asio::buffer(data));
+        });
+        socket.connect("127.0.0.1", ep.port(), props);
+
+        ctx.run();
+    }
+
+    SECTION("send some data")
+    {
+        boost::asio::ip::tcp::endpoint ep{
+            boost::asio::ip::make_address("127.0.0.1"), 12345};
+        boost::asio::ip::tcp::acceptor acceptor{ctx, ep};
+        boost::asio::ip::tcp::socket raw_socket{ctx};
+
+        char data[] = {'a', 'b', 'c'};
+        char received[3]{};
+
+        handler.connected_cb = [&] {
+            socket.send(std::as_bytes(std::span{data}));
+        };
+        handler.disconnected_cb = [&] { ctx.stop(); };
+        handler.received_data_cb = [&](std::span<const std::byte> data) {};
+
+        acceptor.async_accept(raw_socket, [&](const auto& ec) {
+            REQUIRE_FALSE(ec);
+
+            raw_socket.read_some(boost::asio::buffer(received));
+            CHECK(received[0] == 'a');
+            CHECK(received[1] == 'b');
+            CHECK(received[2] == 'c');
+            socket.stop(false);
         });
         socket.connect("127.0.0.1", ep.port(), props);
 
