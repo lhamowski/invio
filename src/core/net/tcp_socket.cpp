@@ -120,7 +120,7 @@ public:
         if (disconnected())
             return;
 
-        LOG_ERR(logger_, "Stopping connection (host: {}:{})", host_, port_);
+        LOG_INFO(logger_, "Stopping connection (host: {}:{})", host_, port_);
 
         if (state_ == state::connected)
         {
@@ -227,6 +227,8 @@ private:
     {
         if (state_ != state::connected && state_ != state::closing)
             return;
+
+        INVIO_ASSERT(!send_queue_.empty(), "Send queue is empty");
 
         boost::asio::async_write(
             socket_, boost::asio::buffer(*send_queue_.front()),

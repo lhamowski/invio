@@ -18,7 +18,6 @@ server::server(const config& cfg, invio::core::logger& logger,
     cfg_(cfg),
     logger_{logger},
     ctx_{ctx},
-    connection_manager_{logger},
     acceptor_{ctx, logger}
 {
     LOG_INFO(logger_, "Starting RTSP Server...");
@@ -30,7 +29,7 @@ server::server(const config& cfg, invio::core::logger& logger,
 
 void server::on_accepted(boost::asio::ip::tcp::socket& socket)
 {
-    // connection_manager_.new_connection(socket);
+    // TODO
 }
 
 }  // namespace invio::core::rtsp

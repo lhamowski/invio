@@ -1,6 +1,5 @@
 #pragma once
 
-#include "connection_manager.hpp"
 #include "fwd.hpp"
 
 #include "core/net/tcp_acceptor.hpp"
@@ -39,7 +38,6 @@ private:
     boost::asio::io_context& ctx_;
 
 private:
-    connection_manager connection_manager_;
     invio::core::net::tcp_acceptor acceptor_;
 };
 

@@ -3,10 +3,6 @@ set(lib_source_files
     core/net/tcp_acceptor.cpp    
     core/net/tcp_socket.hpp
     core/net/tcp_socket.cpp
-    core/rtsp/connection.hpp
-    core/rtsp/connection.cpp
-    core/rtsp/connection_manager.hpp
-    core/rtsp/connection_manager.cpp
     core/rtsp/server.hpp
     core/rtsp/server.cpp
     core/logger_manager.hpp
