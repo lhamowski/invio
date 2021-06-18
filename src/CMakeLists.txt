@@ -3,6 +3,8 @@ set(lib_source_files
     core/net/tcp_acceptor.cpp    
     core/net/tcp_socket.hpp
     core/net/tcp_socket.cpp
+    core/net/udp_socket.hpp
+    core/net/udp_socket.cpp
     core/rtsp/server.hpp
     core/rtsp/server.cpp
     core/logger_manager.hpp
