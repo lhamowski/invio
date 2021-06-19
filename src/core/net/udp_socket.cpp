@@ -160,8 +160,8 @@ private:
 
         if (!ec && handler_)
         {
-            handler_->received(std::span{buffer_.data(), buffer_.size()},
-                               remote_endpoint_);
+            handler_->data_received(std::span{buffer_.data(), buffer_.size()},
+                                    remote_endpoint_);
         }
 
         read();
@@ -188,7 +188,7 @@ private:
         send_queue_.pop_front();
 
         if (handler_)
-            handler_->sent(!ec, dest);
+            handler_->data_sent(!ec, dest);
 
         if (!send_queue_.empty())
             do_send();

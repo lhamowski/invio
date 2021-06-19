@@ -345,7 +345,7 @@ private:
         }
 
         if (size > 0 && handler_)
-            handler_->received(std::span{recv_buffer_.get(), size});
+            handler_->data_received(std::span{recv_buffer_.get(), size});
 
         read();
     }
@@ -368,6 +368,9 @@ private:
             disconnect();
             return;
         }
+
+        if (handler_)
+            handler_->data_sent();
 
         send_queue_.pop_front();
         if (!send_queue_.empty())

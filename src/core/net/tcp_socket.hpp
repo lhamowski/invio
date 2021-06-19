@@ -23,7 +23,8 @@ struct tcp_socket_properties
 class tcp_socket_handler
 {
 public:
-    virtual void received(std::span<const std::byte> data) = 0;
+    virtual void data_received(std::span<const std::byte> data) = 0;
+    virtual void data_sent() = 0;
     virtual void connected() = 0;
     virtual void disconnected() = 0;
 

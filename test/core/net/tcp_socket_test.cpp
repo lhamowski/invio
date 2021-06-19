@@ -19,10 +19,16 @@ namespace {
 class tcp_sock_handler : public invio::core::net::tcp_socket_handler
 {
 public:
-    void received(std::span<const std::byte> data) override 
+    void data_received(std::span<const std::byte> data) override
     {
-        REQUIRE(received_data_cb);
-        received_data_cb(data);
+        REQUIRE(data_received_cb);
+        data_received_cb(data);
+    }
+
+    void data_sent() override
+    {
+        REQUIRE(data_sent_cb);
+        data_sent_cb();
     }
 
     void connected() override
@@ -37,7 +43,8 @@ public:
         disconnected_cb();
     }
 
-    std::function<void(std::span<const std::byte>)> received_data_cb;
+    std::function<void(std::span<const std::byte>)> data_received_cb;
+    std::function<void()> data_sent_cb;
     std::function<void()> connected_cb;
     std::function<void()> disconnected_cb;
 };
@@ -104,12 +111,12 @@ TEST_CASE("tcp socket", "[net]")
         boost::asio::ip::tcp::acceptor acceptor{ctx, ep};
         boost::asio::ip::tcp::socket raw_socket{ctx};
 
-        std::span<const std::byte> received_data;
+        std::span<const std::byte> data_received;
         char data[] = {'a', 'b', 'c'};
 
         handler.connected_cb = [&] {};
         handler.disconnected_cb = [&] { ctx.stop(); };
-        handler.received_data_cb = [&](std::span<const std::byte> data) {
+        handler.data_received_cb = [&](std::span<const std::byte> data) {
             REQUIRE(data.size() == 3);
             CHECK(data[0] == std::byte{'a'});
             CHECK(data[1] == std::byte{'b'});
@@ -139,18 +146,18 @@ TEST_CASE("tcp socket", "[net]")
         handler.connected_cb = [&] {
             socket.send(std::as_bytes(std::span{data}));
         };
-        handler.disconnected_cb = [&] { ctx.stop(); };
-        handler.received_data_cb = [&](std::span<const std::byte> data) {};
-
-        acceptor.async_accept(raw_socket, [&](const auto& ec) {
-            REQUIRE_FALSE(ec);
-
+        handler.data_sent_cb = [&] {
             raw_socket.read_some(boost::asio::buffer(received));
             CHECK(received[0] == 'a');
             CHECK(received[1] == 'b');
             CHECK(received[2] == 'c');
             socket.stop(false);
-        });
+        };
+        handler.disconnected_cb = [&] { ctx.stop(); };
+        handler.data_received_cb = [&](std::span<const std::byte> data) {};
+
+        acceptor.async_accept(raw_socket,
+                              [&](const auto& ec) { REQUIRE_FALSE(ec); });
         socket.connect("127.0.0.1", ep.port(), props);
 
         ctx.run();
