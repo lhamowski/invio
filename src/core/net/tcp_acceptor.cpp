@@ -61,8 +61,8 @@ private:
     {
         if (ec)
         {
-            LOG_WARN(logger_, "Cannot accept connection (error: {})",
-                     ec.message());
+            LOG_ERR(logger_, "Cannot accept connection (error: {})",
+                    ec.message());
         }
         else
         {

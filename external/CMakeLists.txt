@@ -6,7 +6,7 @@ FetchContent_Declare(
 )
 FetchContent_Declare(
     fmt
-    URL https://github.com/fmtlib/fmt/archive/6.2.0.zip
+    URL https://github.com/fmtlib/fmt/archive/7.1.3.zip
 )
 FetchContent_Declare(
     spdlog
