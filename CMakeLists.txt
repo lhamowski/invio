@@ -36,7 +36,7 @@ set(CMAKE_CXX_FLAGS "/EHsc ${compile_options} ${compile_definitions}"
 set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
 set(INVIO_TEST ON)
 
-find_package(Boost 1.68.0 REQUIRED
+find_package(Boost 1.73.0 REQUIRED
     COMPONENTS
         system
 )

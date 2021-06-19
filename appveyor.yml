@@ -3,8 +3,8 @@ os: Visual Studio 2019
 
 environment:
   global:
-    BOOST_INCLUDEDIR: "C:/Libraries/boost_1_71_0"
-    BOOST_LIBRARYDIR: "C:/Libraries/boost_1_71_0/lib64-msvc-14.2"
+    BOOST_INCLUDEDIR: "C:/Libraries/boost_1_73_0"
+    BOOST_LIBRARYDIR: "C:/Libraries/boost_1_73_0/lib64-msvc-14.2"
 
 install:
 - choco install opencppcoverage codecov
