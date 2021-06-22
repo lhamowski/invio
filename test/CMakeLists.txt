@@ -2,6 +2,7 @@ set(test_source_files
     main.cpp
 
     core/net/tcp_socket_test.cpp
+    core/net/udp_socket_test.cpp
     core/logger_manager_test.cpp 
     
     support/error_test.cpp

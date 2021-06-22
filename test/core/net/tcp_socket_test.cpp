@@ -1,11 +1,11 @@
-#include <core/logger_manager.hpp>
-#include <core/net/tcp_acceptor.hpp>
 #include <core/net/tcp_socket.hpp>
+#include <core/net/tcp_acceptor.hpp>
+#include <core/logger_manager.hpp>
 
-#include <spdlog/logger.h>
+#include <spdlog/spdlog.h>
 
+#include <boost/asio/buffer.hpp>
 #include <boost/asio/io_context.hpp>
-#include <boost/asio/ip/basic_endpoint.hpp>
 #include <boost/asio/ip/tcp.hpp>
 
 #include <catch2/catch.hpp>
