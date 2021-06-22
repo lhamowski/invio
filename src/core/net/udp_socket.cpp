@@ -26,19 +26,29 @@ class udp_socket::impl : public std::enable_shared_from_this<impl>
 public:
     impl(boost::asio::io_context& ctx, udp_socket_handler& handler,
          invio::core::logger& logger) :
-        socket_{ctx_, boost::asio::ip::udp::endpoint{}},
         ctx_{ctx},
+        socket_{ctx_, boost::asio::ip::udp::v4()},
         handler_{&handler},
         logger_{logger},
         send_arena_{
             std::make_shared<arena_type>(initial_arena_size, buffer_size)}
     {
-        start();
     }
 
     ~impl()
     {
         stop();
+    }
+
+    void start()
+    {
+        if (!stopped())
+            return;
+
+        LOG_INFO(logger_, "UDP socket started");
+
+        state_ = state::started;
+        read();
     }
 
     void bind(const boost::asio::ip::udp::endpoint& endpoint)
@@ -101,16 +111,6 @@ private:
     };
 
 private:
-    void start()
-    {
-        if (!stopped())
-            return;
-
-        LOG_INFO(logger_, "UDP socket started");
-
-        state_ = state::started;
-        read();
-    }
 
     bool stopped() const { return state_ == state::stopped; }
 
@@ -130,7 +130,7 @@ private:
 
         INVIO_ASSERT(!send_queue_.empty(), "Send queue is empty");
 
-        const auto data = *send_queue_.front().data;
+        const auto& data = *send_queue_.front().data;
         const auto dest = send_queue_.front().dest;
 
         socket_.async_send_to(
@@ -160,7 +160,7 @@ private:
 
         if (!ec && handler_)
         {
-            handler_->data_received(std::span{buffer_.data(), buffer_.size()},
+            handler_->data_received(std::span{buffer_.data(), size},
                                     remote_endpoint_);
         }
 
@@ -204,8 +204,8 @@ private:
     };
 
 private:
-    boost::asio::ip::udp::socket socket_;
     boost::asio::io_context& ctx_;
+    boost::asio::ip::udp::socket socket_;
     boost::asio::ip::udp::endpoint remote_endpoint_{};
     udp_socket_handler* handler_;
     invio::core::logger& logger_;
@@ -240,6 +240,7 @@ void udp_socket::start()
         return;
 
     impl_ = std::make_shared<impl>(ctx_, handler_, logger_);
+    impl_->start();
 }
 
 void udp_socket::stop(bool send_pending)
