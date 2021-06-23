@@ -17,7 +17,7 @@ before_build:
 
 build_script:
   - cmd: cmake --build . --config Debug -- /verbosity:minimal /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
-  - OpenCppCoverage --export_type cobertura:coverage.xml --sources "src" --modules "bin\Debug\invio-test.exe" --cover_children -- ctest -C Debug --output-on-failure
+  - OpenCppCoverage --export_type cobertura:coverage.xml --modules "bin\Debug\invio-test.exe" --cover_children -- ctest -C Debug --output-on-failure
   - codecov -f coverage.xml --root %APPVEYOR_BUILD_FOLDER%
 
 test_script:
