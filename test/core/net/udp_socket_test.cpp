@@ -47,17 +47,15 @@ TEST_CASE("udp socket", "[net]")
     logger log{std::make_shared<spdlog::logger>("test-logger")};
 
     net::udp_socket socket{ctx, handler, log};
+    socket.start();
 
     SECTION("send data")
     {
-        socket.start();
-
         char data[3]{'a', 'b', 'c'};
         char received[3]{};
 
         const boost::asio::ip::udp::endpoint ep{
             boost::asio::ip::make_address("127.0.0.1"), 12345};
-
         boost::asio::ip::udp::socket raw_socket{ctx, boost::asio::ip::udp::v4()};
         raw_socket.bind(ep);
         socket.send_to(std::as_bytes(std::span{data}), ep);
@@ -72,6 +70,31 @@ TEST_CASE("udp socket", "[net]")
             CHECK(received[2] == 'c');
             socket.stop(false);
         };
+
+        ctx.run();
+    }
+
+    SECTION("receive data")
+    {
+        char data[3]{'a', 'b', 'c'};
+        char received[3]{};
+
+        const boost::asio::ip::udp::endpoint ep{
+            boost::asio::ip::make_address("127.0.0.1"), 12345};
+        boost::asio::ip::udp::socket raw_socket{ctx, boost::asio::ip::udp::v4()};
+        socket.bind(ep);
+        raw_socket.send_to(boost::asio::buffer(data), ep);
+
+        handler.data_received_cb =
+            [&](std::span<const std::byte> received,
+                const boost::asio::ip::udp::endpoint& src) {
+                CHECK(src.address() == ep.address());
+                REQUIRE(received.size() == 3);
+                CHECK(received[0] == std::byte{'a'});
+                CHECK(received[1] == std::byte{'b'});
+                CHECK(received[2] == std::byte{'c'});
+                socket.stop(false);
+            };
 
         ctx.run();
     }
