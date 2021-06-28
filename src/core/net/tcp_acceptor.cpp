@@ -23,7 +23,13 @@ public:
 
     ~impl() { stop(); }
 
-    void stop() { acceptor_.close(); }
+    void start() { accept(); }
+
+    void stop() 
+    { 
+        acceptor_.close();
+        started_ = false;
+    }
 
 private:
     void listen(const boost::asio::ip::tcp::endpoint& endpoint)
@@ -33,6 +39,7 @@ private:
             acceptor_.open(endpoint.protocol());
             acceptor_.bind(endpoint);
             acceptor_.listen();
+            started_ = true;
 
             LOG_INFO(logger_,
                      "Started listening for incoming connections (port={})",
@@ -59,6 +66,12 @@ private:
     void on_accepted(const boost::system::error_code& ec,
                      boost::asio::ip::tcp::socket& socket)
     {
+        if (!started_)
+            return;
+
+        if (ec == boost::asio::error::operation_aborted)
+            return;
+
         if (ec)
         {
             LOG_ERR(logger_, "Cannot accept connection (error: {})",
@@ -76,6 +89,7 @@ private:
     boost::asio::ip::tcp::acceptor acceptor_;
     tcp_acceptor_handler& handler_;
     invio::core::logger& logger_;
+    bool started_{false};
 };
 
 tcp_acceptor::tcp_acceptor(boost::asio::io_context& ctx,
@@ -89,6 +103,7 @@ void tcp_acceptor::start(const boost::asio::ip::tcp::endpoint& endpoint,
 {
     INVIO_ASSERT(!impl_, "Acceptor already started");
     impl_ = std::make_shared<impl>(ctx_, endpoint, handler, logger_);
+    impl_->start();
 }
 
 void tcp_acceptor::stop()
