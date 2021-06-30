@@ -84,11 +84,6 @@ TEST_CASE("tcp socket", "[net]")
 
     SECTION("connect to unknown host")
     {
-        boost::asio::ip::tcp::endpoint ep{
-            boost::asio::ip::make_address("127.0.0.1"), 12345};
-        boost::asio::ip::tcp::acceptor acceptor{ctx, ep};
-        boost::asio::ip::tcp::socket raw_socket{ctx};
-
         std::size_t connection_count{};
         handler.connected_cb = [&] {
             ++connection_count;
@@ -96,8 +91,7 @@ TEST_CASE("tcp socket", "[net]")
         };
         handler.disconnected_cb = [&] { ctx.stop(); };
 
-        acceptor.async_accept(raw_socket, [](const auto& ec) {});
-        socket.connect("www.test.test.test.test.net", ep.port(), props);
+        socket.connect("www.test.test.test.test.net", 12345, props);
         ctx.run();
 
         CHECK(connection_count == 0);
