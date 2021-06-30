@@ -48,9 +48,9 @@ public:
 
 public:
     void connect(const char* host, std::uint16_t port,
-                 const tcp_socket_properties& props);
+                 const tcp_socket_properties& props = {});
     void connect(boost::asio::ip::tcp::socket&& socket,
-                 const tcp_socket_properties& props);
+                 const tcp_socket_properties& props = {});
     void stop(bool send_pending);
 
     void send(std::span<const std::byte> data);
