@@ -14,6 +14,7 @@ class udp_socket;
 }  // namespace core::net
 
 namespace core::rtsp {
+class connection;
 class server;
 }  // namespace core::rtsp
 }  // namespace invio
